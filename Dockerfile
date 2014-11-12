@@ -4,7 +4,7 @@ MAINTAINER Dell Cloud Market Place <Cloud_Marketplace@dell.com>
 # Update the package repository and install applications
 RUN apt-get update -qq && \
   apt-get upgrade -yqq && \
-  apt-get -yqq install varnish && \
+  apt-get -yqq install varnish=3.0.5-2 && \
   apt-get -yqq clean
 
 # The IP and PORT of the host to have cache acceleration
