@@ -1,5 +1,5 @@
 # docker-varnish
-A web application accelerator also known as a caching HTTP reverse proxy. You install it in front of any server that speaks HTTP and configure it to cache the contents. Varnish Cache is really, really fast. It typically speeds up delivery with a factor of 300 - 1000x, depending on your architecture.
+This installs [Varnish 3.0](https://www.varnish-cache.org/docs/3.0/index.html) which is web application accelerator also known as a caching HTTP reverse proxy. You install it in front of any server that speaks HTTP and configure it to cache the contents.  It makes your web site go faster.
 
 ## Components
 The stack comprises the following components:
@@ -32,7 +32,10 @@ You can also inspect the logs as the container is running the [varnishlog](https
     sudo docker logs varnish
 
 ### Advanced Example
-You can set up varnish as a cache proxy for another container running a website.  For this example we will run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image and then run varnish as the cache proxy for lamp. 
+- Set up varnish as a cache proxy for another container hosting a website.  For this example run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image and then run varnish as the cache proxy for lamp. 
+
+- Ports 8080 (dell/lamp Apache Web Server) and 2000 (varnish cache proxy) exposed.
+- [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) 200MB
 
 Start the dell/lamp image binding host port 8080 to port 80 (Apache Web Server) in your container:
 
@@ -59,6 +62,6 @@ You can also inspect the logs as the container is running the [varnishlog](https
 
 ### Image Details
 
-Based on  
+Based on | [jacksoncage/varnish](https://github.com/jacksoncage/varnish-docker)
 
-Pre-built Imag
+Pre-built Image   | [https://registry.hub.docker.com/u/dell/varnish](https://registry.hub.docker.com/u/dell/varnish) 
