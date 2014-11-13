@@ -40,8 +40,8 @@ Start the dell/lamp image binding host port 8080 to port 80 (Apache Web Server) 
 
 Now start the varnish image, this time specifying the IP address (**VARNISH_BACKEND_IP**) of your host and host port 8080 (**VARNISH_BACKEND_PORT**) (this is the port that the dell/lamp image has bound to.  A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**)
 
-    sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e VARNISH_BACKEND_IP=192.168.171.129 \ 
-    -e VARNISH_STORAGE_AMOUNT=200M dell/varnish
+    sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e VARNISH_BACKEND_IP=192.168.171.129 \
+    -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
 Test your deployment on the CLI using:
 
