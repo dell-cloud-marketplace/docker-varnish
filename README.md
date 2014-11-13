@@ -12,10 +12,11 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ## Usage
 
 ### Basic Example
-docker-varnish will default to caching a web server on the host port 80 using the default docker gateway to the host on IP 172.17.42.1 
-The default cache size is 100MB.
+docker-varnish will default to caching a web server on the host port 80 using the default docker gateway to the host on IP 172.17.42.1   *[NOTE: You require a web server running on your host on port 80 for this basic example.]*
 
-Start your image binding host port 2000 to port 80. The docker-varnish image will default to caching your website being hosted on the docker host.
+The default [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) is 100MB.
+
+Start your image binding host port 2000 to port 80. The docker-varnish image will default to caching the website being hosted on the docker host.
 
     sudo docker run -d -p 2000:80 --name varnish dell/varnish
     
@@ -41,7 +42,7 @@ Start the dell/lamp image binding host port 8080 to port 80 (Apache Web Server) 
 
     sudo docker run -d -p 8080:80 dell/lamp
 
-Now start the varnish image, this time specifying the IP address (**VARNISH_BACKEND_IP**) of your host and host port 8080 (**VARNISH_BACKEND_PORT**) (this is the port that the dell/lamp image has bound to.  A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**)
+Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) (this is the port that the dell/lamp image has bound to.  A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) *[NOTE: Not specifying host IP address would achieve the same result as varnish is configured to default to using the docker gateway IP to reach the host, but the correct port is required to reach the lamp container]*
 
     sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e VARNISH_BACKEND_IP=192.168.171.129 \
     -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
