@@ -46,10 +46,13 @@ Now start the varnish image, this time specifying the host IP address (**VARNISH
 
 A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
 
-*[NOTE: Not specifying host IP address would achieve the same result as varnish is configured to default to using the docker gateway IP to reach the host, but the correct port is required to reach the lamp container]*
-
     sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e \
     VARNISH_BACKEND_IP=192.168.171.129 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
+
+Alternatively don't specify (**VARNISH_BACKEND_IP**) and Varnish will default to using the docker gateway IP to reach the host. The port (**VARNISH_BACKEND_PORT**) is still required to reach the exposed lamp container port 8080.
+
+    sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e \
+    VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
 Test the deployment on the CLI using:
 
