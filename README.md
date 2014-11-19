@@ -14,21 +14,21 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ### Basic Example
 By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 80.
 
-Start a LAMP container, serving port 80, as follows:
+Start a LAMP container, serving port 8080, as follows:
 
-    sudo docker run -d -p 80:80 --name lamp dell/lamp
+    sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Next, start the Varnish container, binding host port 8080 to (Varnish) container port 80, and caching the LAMP website:
+Next, start the Varnish container, binding host port 80 to (Varnish) container port 80, and caching the LAMP website:
 
-    sudo docker run -d -p 8080:80 --name varnish dell/varnish
+    sudo docker run -d -p 80:80 --name varnish dell/varnish
     
 Test the deployment via the command line:
 
-    curl http://localhost:8080/
+    curl http://localhost/
 
 Alternatively, browse to:
 
-    http://localhost:8080/
+    http://localhost/
 
 If you inspect the container logs, you will see the output from the [varnishlog](https://www.varnish-cache.org/docs/3.0/tutorial/logging.html) utility
 
