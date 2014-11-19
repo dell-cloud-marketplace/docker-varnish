@@ -94,7 +94,7 @@ Run the [dell/wordpress](https://github.com/dell-cloud-marketplace/docker-wordpr
 
 Then run varnish specifying the volume mapping so that the **config.template** that you created can be loaded in the docker-varnish container: 
 
-    sudo docker run -d -p 8080:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
+    sudo docker run -d -p 80:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
 
 Inspect the logs and check that "config.template detected" is present
 
