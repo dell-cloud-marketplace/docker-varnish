@@ -12,6 +12,8 @@ CONFIG_FILE=${CONFIG_FOLDER}/config.vcl
 if [ ! -f  $CONFIG_TEMPLATE ]; then
     echo -e "\e[32mUsing Default Template\e[39m"
     cp $DEFAULT_TEMPLATE $CONFIG_TEMPLATE
+else
+    echo -e "\e[32mconfig.template detected\e[39m"
 fi
 
 # Patch any environmental variable references to create the config file.
