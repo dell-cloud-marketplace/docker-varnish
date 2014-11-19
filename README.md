@@ -96,6 +96,19 @@ Then run varnish specifying the volume mapping so that the **config.template** t
 
     sudo docker run -d -p 8080:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
 
+Inspect the logs and check that "config.template detected" is present
+
+    sudo docker logs varnish
+
+Test the deployment on the CLI using:
+
+    curl http://localhost/
+
+Or through the browser on
+
+    http://localhost/
+
+
 ## Reference
 
 ### Image Details
