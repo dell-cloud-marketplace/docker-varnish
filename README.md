@@ -56,7 +56,7 @@ A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**)
 
 Alternatively don't specify **VARNISH_BACKEND_IP** or **VARNISH_BACKEND_PORT** and Varnish will default to using the docker gateway IP to reach the host on port 8080.
 
-    sudo docker run -d -p 80:80 VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
+    sudo docker run -d -p 80:80 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
 Test the deployment on the CLI using:
 
