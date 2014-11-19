@@ -71,7 +71,10 @@ Inspect the logs as the container is running the [varnishlog](https://www.varnis
     sudo docker logs varnish
 
 ### Advanced Example 2
-A [Varnish configuration](https://www.varnish-cache.org/docs/3.0/reference/vcl.html) can be loaded through a file in a docker volume.  This example will use a configuration file to specify the IP and Port of the host that Varnish is to cache.
+
+A [Varnish configuration file](https://www.varnish-cache.org/docs/3.0/reference/vcl.html) can be created using VCL.  The VCL language is a small domain-specific language designed to be used to define request handling and document caching policies for Varnish Cache.
+
+A Varnish configuration can be loaded through a file in a docker volume.  This example will use a configuration file to specify the IP and Port of the host that Varnish is to cache. 
 
 A configuration file called **config.template** needs to be created and exist in the docker host volume directory before launching the docker-varnish container.  
 
