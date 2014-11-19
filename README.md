@@ -36,41 +36,62 @@ If you inspect the container logs, you will see the output from the [varnishlog]
 
 ### Advanced Example
 
-The default [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) is 100MB.
+By default docker-varnish is configured to use Docker gateway IP to cache the docker host on port 8080 with a [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) of 100MB.
 
+This example will override these defaults using:
+- **VARNISH_BACKEND_IP** to specify the IP address of the host that Varnish will cache.
+- **VARNISH_BACKEND_PORT** to specify the PORT of the host that Varnish will cache.
+- **VARNISH_STORAGE_AMOUNT** to set the [Varnish cache amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html).
 
-- Set up varnish as a cache proxy for another container hosting a website.  For this example run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image and then run varnish as the cache proxy for lamp. 
+First run the [dell/wordpress](https://github.com/dell-cloud-marketplace/docker-wordpress) image and then run varnish as the cache proxy for WordPress. 
 
-- Ports 8080 (dell/lamp Apache Web Server) and 2000 (varnish cache proxy) exposed.
-- [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) 200MB
-
-Start the dell/lamp image binding host port 8080 to port 80 (Apache Web Server) in the container:
-
-    sudo docker run -d -p 8080:80 dell/lamp
+    sudo docker run -d -p 8080:80 dell/wordpress
 
 Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the dell/lamp image has bound to.  
 
 A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
 
-    sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e \
-    VARNISH_BACKEND_IP=192.168.171.129 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
+    sudo docker run -d -p 80:80 -e VARNISH_BACKEND_IP=192.168.171.129 \
+    -e VARNISH_BACKEND_PORT=8080 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
-Alternatively don't specify (**VARNISH_BACKEND_IP**) and Varnish will default to using the docker gateway IP to reach the host. The port (**VARNISH_BACKEND_PORT**) is still required to reach the exposed lamp container port 8080.
+Alternatively don't specify **VARNISH_BACKEND_IP** or **VARNISH_BACKEND_PORT** and Varnish will default to using the docker gateway IP to reach the host on port 8080.
 
-    sudo docker run -d -p 2000:80 -e VARNISH_BACKEND_PORT=8080 -e \
-    VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
+    sudo docker run -d -p 80:80 VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
 Test the deployment on the CLI using:
 
-    curl http://localhost:2000/
+    curl http://localhost/
 
 Or through the browser on
 
-    http://localhost:2000/
+    http://localhost/
 
 Inspect the logs as the container is running the [varnishlog](https://www.varnish-cache.org/docs/3.0/tutorial/logging.html) utility
 
     sudo docker logs varnish
+
+### Advanced Example 2
+A [Varnish configuration](https://www.varnish-cache.org/docs/3.0/reference/vcl.html) can be loaded through a file in a docker volume.  This example will use a configuration file to specify the IP and Port of the host that Varnish is to cache.
+
+A configuration file called **config.template** needs to be created and exist in the docker host volume directory before launching the docker-varnish container.  
+
+Copy the [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) to create the config.template file. Then modify the backend default .host and .port parameters to explicity specify the IP address and port of the host that Varnish will cache:
+
+    backend default {
+        .host = "192.168.171.12";
+        .port = "8080";
+        .connect_timeout = 1s;       # Maximum of 1s for backend connection.
+        .first_byte_timeout = 5s;    # Maximum of 5s for the first byte.
+        .between_bytes_timeout = 2s; # Maximum of 2s between each bytes sent.
+    }
+
+Run the [dell/wordpress](https://github.com/dell-cloud-marketplace/docker-wordpress) image:
+
+    sudo docker run -d -p 8080:80 dell/wordpress
+
+Then run varnish specifying the volume mapping so that the **config.template** that you created can be loaded in the docker-varnish container: 
+
+    sudo docker run -d -p 8080:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
 
 ## Reference
 
