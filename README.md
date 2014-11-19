@@ -1,5 +1,5 @@
 # docker-varnish
-This installs [Varnish 3.0](https://www.varnish-cache.org/docs/3.0/index.html) which is web application accelerator also known as a caching HTTP reverse proxy. It is installed it in front of any server that speaks HTTP and configure it to cache the contents.  It makes web sites go faster.
+This image installs [Varnish 3.0](https://www.varnish-cache.org/docs/3.0/index.html), an HTTP accelerator, also known as a "caching HTTP reverse proxy".  Varnish may be placed front of any server that speaks HTTP, to cache the contents. It typically speeds up delivery with a factor of [300 - 1000x](https://www.varnish-cache.org/about), depending on the system architecture.
 
 ## Components
 The stack comprises the following components:
@@ -12,27 +12,33 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ## Usage
 
 ### Basic Example
-docker-varnish will default to caching a web server on the host port 80 using the default docker gateway to the host on IP 172.17.42.1   *[NOTE: A web site running on the docker host port 80 is required for this basic example.]*
+By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 80.
 
-The default [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) is 100MB.
+Start a LAMP container, serving port 80, as follows:
 
-Start the image binding host port 2000 to port 80. The docker-varnish image will default to caching the website being hosted on the docker host.
+    sudo docker run -d -p 80:80 --name lamp dell/lamp
 
-    sudo docker run -d -p 2000:80 --name varnish dell/varnish
+Next, start the Varnish container, binding host port 8080 to (Varnish) container port 80, and caching the LAMP website:
+
+    sudo docker run -d -p 8080:80 --name varnish dell/varnish
     
-Test the deployment on the CLI using:
+Test the deployment via the command line:
 
-    curl http://localhost:2000/
+    curl http://localhost:8080/
 
-Or through the browser on
+Alternatively, browse to:
 
-    http://localhost:2000/
+    http://localhost:8080/
 
-Inspect the logs as the container is running the [varnishlog](https://www.varnish-cache.org/docs/3.0/tutorial/logging.html) utility
+If you inspect the container logs, you will see the output from the [varnishlog](https://www.varnish-cache.org/docs/3.0/tutorial/logging.html) utility
 
     sudo docker logs varnish
 
 ### Advanced Example
+
+The default [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) is 100MB.
+
+
 - Set up varnish as a cache proxy for another container hosting a website.  For this example run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image and then run varnish as the cache proxy for lamp. 
 
 - Ports 8080 (dell/lamp Apache Web Server) and 2000 (varnish cache proxy) exposed.
