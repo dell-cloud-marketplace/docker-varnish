@@ -12,13 +12,13 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ## Usage
 
 ### Basic Example
-By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 80.
+By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 8080.
 
 Start a LAMP container, serving port 8080, as follows:
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Next, start the Varnish container, binding host port 80 to (Varnish) container port 80, and caching the LAMP website:
+Next, start the Varnish container, binding host port 80 to (Varnish) container port 80.  This will cache the LAMP site serving on port 8080:
 
     sudo docker run -d -p 80:80 --name varnish dell/varnish
     
@@ -78,7 +78,7 @@ A Varnish configuration can be loaded through a file in a docker volume.  This e
 
 A configuration file called **config.template** needs to be created and exist in the docker host volume directory before launching the docker-varnish container.  
 
-Copy the [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) to create the config.template file. Then modify the backend default .host and .port parameters to explicity specify the IP address and port of the host that Varnish will cache:
+Copy the [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) to create the a new file called **config.template**. Then modify the backend default .host and .port parameters to explicity specify the IP address and port of the host that Varnish will cache:
 
     backend default {
         .host = "192.168.171.12";
