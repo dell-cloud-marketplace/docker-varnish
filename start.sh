@@ -22,7 +22,8 @@ envsubst < $CONFIG_TEMPLATE > $CONFIG_FILE
 # The '-a' argument defines what address Varnish service HTTP requests from.
 echo "Starting varnish"
 varnishd -f $CONFIG_FILE -s malloc,$VARNISH_STORAGE_AMOUNT \
-    -a 0.0.0.0:$VARNISH_PORT -p sess_timeout=$VARNISH_SESS_TIMEOUT
+    -a 0.0.0.0:$VARNISH_PORT -p sess_timeout=$VARNISH_SESS_TIMEOUT \
+    -T localhost:$VARNISH_CONSOLE_PORT
 
 echo "Starting varnishlog"
 varnishlog

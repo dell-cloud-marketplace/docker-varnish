@@ -19,6 +19,9 @@ ENV VARNISH_STORAGE_AMOUNT 100M
 # Idle timeout for persistent sessions
 ENV VARNISH_SESS_TIMEOUT 20
 
+# Varnish Management Console Port
+ENV VARNISH_CONSOLE_PORT 2000
+
 # The default configuration template will be copied to the config folder, in
 # script start.sh, if it doesn't exist. Note: the template is a VCL file which
 # allows environmental variables.
