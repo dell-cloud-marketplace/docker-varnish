@@ -108,6 +108,75 @@ Or through the browser on
 
     http://localhost/
 
+## Verify Varnish is cache is working.
+
+Using the docker-lamp image, simulate processor load by forcing a delay in PHP processing.
+
+Run the docker-lamp image, using the volume mapping to allow the PHP to be modified.
+
+    sudo docker run -d -p 8080:80 -v /lamp-www:/var/www/html --name lamp dell/lamp
+
+
+Modify the lamp index.php to have a delay when querying the MySql version.
+
+    sudo nano /lamp-www/index.php
+
+
+Insert the **sleep(1);** command here (line 20):
+    
+    <body>
+      <img id="logo" src="logo.png" />
+      <h1><?php echo "Hello world!"; ?></h1>
+    <?php
+      sleep(1);
+    
+      $link = mysql_connect('localhost', 'root');
+    
+      if(!$link) {
+    ?>
+
+
+Now run Varnish:
+
+    sudo docker run -d -p 80:80 --name varnish dell/varnish
+
+
+Header verification:
+
+Inspect the Varnish http header values to verify that the site is being cached using the following command
+
+    curl -I http://localhost
+
+This will display output like this:
+
+    ~$ curl -I http://localhost
+    HTTP/1.1 200 OK
+    Server: Apache/2.4.7 (Ubuntu)
+    X-Powered-By: PHP/5.5.9-1ubuntu4.4
+    Vary: Accept-Encoding
+    Content-Type: text/html
+    Date: Wed, 26 Nov 2014 16:46:14 GMT
+    X-Varnish: 663286749
+    Age: 0
+    Via: 1.1 varnish
+    Connection: keep-alive
+
+Run the curl command again: 
+
+    ~$ curl -I http://localhost
+    HTTP/1.1 200 OK
+    Server: Apache/2.4.7 (Ubuntu)
+    X-Powered-By: PHP/5.5.9-1ubuntu4.4
+    Vary: Accept-Encoding
+    Content-Type: text/html
+    Date: Wed, 26 Nov 2014 16:46:14 GMT
+    X-Varnish: 663286750 663286749
+    Age: 10
+    Via: 1.1 varnish
+    Connection: keep-alive
+
+The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.html) are **X-Varnish:** which contains both the ID of the current request and the ID of the request that populated the cache and **Age:** which is the amount of time in seconds that the current cache has been served.  If the Age is 0 on the second curl command varnish is not caching the site. 
+
 
 ## Reference
 
