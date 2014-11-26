@@ -177,6 +177,36 @@ Run the curl command again:
 
 The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.html) are **X-Varnish:** which contains both the ID of the current request and the ID of the request that populated the cache and **Age:** which is the amount of time in seconds that the current cache has been served.  If the Age is 0 on the second curl command varnish is not caching the site. 
 
+##Test the performance of Varnish
+
+Using the Apache Benchmark **ab** tool.  Install Apache2-utils:
+
+    sudo apt-get install apache2-utils
+
+Benchmark the performance of the LAMP site without Varnish Caching.  This will perform and measure 100 concurrent requests up to a total of 1000: 
+
+    ab -c 100 -n 1000 http://localhost:8080/
+
+Key output:
+
+    Document Length:        430 bytes
+    ...
+    Time per request:       2431.655 [ms] (mean)
+    Time per request:       24.317 [ms] (mean, across all concurrent requests)
+
+Do the same, this time using the Varnish Cache endpoint:
+
+    ab -c 100 -n 1000 http://localhost/
+
+Key output:
+
+    Document Length:        430 bytes
+    ...
+    Time per request:       5.282 [ms] (mean)
+    Time per request:       0.528 [ms] (mean, across all concurrent requests)
+
+The document length should be the same between tests.
+Time per request should not include the simulated processing time proving the benefits of Varnish Caching.
 
 ## Reference
 
