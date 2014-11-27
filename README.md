@@ -181,7 +181,7 @@ The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.ht
 
 ###Test the performance of Varnish
 
-Using the [Apache Benchmark **ab**] tool (http://httpd.apache.org/docs/2.2/programs/ab.html).  Install Apache2-utils:
+Using the [Apache Benchmark **ab** tool](http://httpd.apache.org/docs/2.2/programs/ab.html).  Install Apache2-utils:
 
     sudo apt-get install apache2-utils
 
