@@ -147,16 +147,12 @@ Now run Varnish:
 
     sudo docker run -d -p 80:80 --name varnish dell/varnish
 
-
-Header verification:
-
-Inspect the Varnish http header values to verify that the site is being cached using the following command
+Inspect the Varnish http header values to verify that the site is being cached:
 
     curl -I http://localhost
 
 This will display output like this:
 
-    ~$ curl -I http://localhost
     HTTP/1.1 200 OK
     Server: Apache/2.4.7 (Ubuntu)
     X-Powered-By: PHP/5.5.9-1ubuntu4.4
@@ -170,7 +166,6 @@ This will display output like this:
 
 Run the curl command again: 
 
-    ~$ curl -I http://localhost
     HTTP/1.1 200 OK
     Server: Apache/2.4.7 (Ubuntu)
     X-Powered-By: PHP/5.5.9-1ubuntu4.4
@@ -190,7 +185,7 @@ Using the [Apache Benchmark **ab**] tool (http://httpd.apache.org/docs/2.2/progr
 
     sudo apt-get install apache2-utils
 
-Benchmark the performance of the LAMP site without Varnish Caching.  This will perform and measure 100 concurrent requests up to a total of 1000 *(NOTE: This will take at least 20s as we have enduced a 2s processing time per request and we are performing 100 requests in parrallel)*: 
+Benchmark the performance of the LAMP site without Varnish Caching.  This will perform and measure 100 concurrent requests up to a total of 1000 *(NOTE: This will take at least* **20s** *as we have enduced a 2s processing time per request and we are performing 100 requests in parrallel)*: 
 
     ab -c 100 -n 1000 http://localhost:8080/
 
