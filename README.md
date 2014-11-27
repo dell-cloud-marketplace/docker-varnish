@@ -121,13 +121,13 @@ Modify the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) in
     sudo nano /lamp-www/index.php
 
 
-Insert the **sleep(1);** command here (line 20):
+Insert the **sleep(2);** command here (line 20):
     
     <body>
       <img id="logo" src="logo.png" />
       <h1><?php echo "Hello world!"; ?></h1>
     <?php
-      sleep(1);
+      sleep(2);
     
       $link = mysql_connect('localhost', 'root');
     
@@ -178,11 +178,11 @@ The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.ht
 
 ##Test the performance of Varnish
 
-Using the Apache Benchmark **ab** tool.  Install Apache2-utils:
+Using the [Apache Benchmark **ab**] tool (http://httpd.apache.org/docs/2.2/programs/ab.html).  Install Apache2-utils:
 
     sudo apt-get install apache2-utils
 
-Benchmark the performance of the LAMP site without Varnish Caching.  This will perform and measure 100 concurrent requests up to a total of 1000: 
+Benchmark the performance of the LAMP site without Varnish Caching.  This will perform and measure 100 concurrent requests up to a total of 1000 *(NOTE: This will take at least 20s as we have enduced a 2s processing time per request and we are performing 100 requests in parrallel)*: 
 
     ab -c 100 -n 1000 http://localhost:8080/
 
@@ -207,7 +207,7 @@ Key output:
 The document length should be the same between tests.
 Time per request through Varnish should not include the simulated processing time proving the benefits of Varnish Caching.
 
-*PLEASE NOTE: The default cache timeout duration is 120s.  If the cache has expired (Age: 120), Then the varnish will refresh the cache with the next request. Subsequent requests for the next 120s will then be presented from the Varnish cache*
+*PLEASE NOTE: The default cache timeout duration is 120s.  If the cache has expired (Age: 120), Then the varnish will refresh the cache with the next request. Subsequent requests for the next 120s will then be presented from the Varnish cache.*
 
 ## Reference
 
