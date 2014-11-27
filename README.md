@@ -80,16 +80,16 @@ A configuration file called **config.template** needs to be created and exist in
 
 Create the directory that will be mapped to Varnish:
 
-    sudo mkdir  /vconf
+    sudo mkdir /vconf
 
 Create and edit a file called **config.template**:
 
     sudo nano /vconf/config.template
 
-Copy the contents of [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) into /vconf/**config.template**. Then modify the backend default **.host** and **.port** parameters to explicity specify the IP address and port of the host that Varnish will cache:
+Copy the **backend default** contents below into **/vconf/config.template**.  Setting the **.host** to IP address 172.17.42.1 (the Docker gateway) and **.port** 8080 will configure Varnish to cache the webserver running on the Docker Host on port 8080. 
 
     backend default {
-        .host = "192.168.171.12";
+        .host = "172.17.42.1";
         .port = "8080";
         .connect_timeout = 1s;       # Maximum of 1s for backend connection.
         .first_byte_timeout = 5s;    # Maximum of 5s for the first byte.
