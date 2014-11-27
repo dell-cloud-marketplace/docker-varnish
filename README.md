@@ -14,7 +14,7 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ### Basic Example
 By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 8080.
 
-Start a LAMP container, serving port 8080, as follows:
+Start a [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) container, serving port 8080, as follows:
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
@@ -43,18 +43,18 @@ This example will override these defaults using:
 - **VARNISH_BACKEND_PORT** to specify the PORT of the host that Varnish will cache.
 - **VARNISH_STORAGE_AMOUNT** to set the [Varnish cache amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html).
 
-First run the [dell/wordpress](https://github.com/dell-cloud-marketplace/docker-wordpress) image and then run varnish as the cache proxy for WordPress. 
+First run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image and then run varnish as the cache proxy for the LAMP website. 
 
-    sudo docker run -d -p 8080:80 dell/wordpress
+    sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the dell/lamp image has bound to.  
+Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image has bound to.  
 
 A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
 
     sudo docker run -d -p 80:80 -e VARNISH_BACKEND_IP=192.168.171.129 \
     -e VARNISH_BACKEND_PORT=8080 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
-Alternatively don't specify **VARNISH_BACKEND_IP** or **VARNISH_BACKEND_PORT** and Varnish will default to using the docker gateway IP to reach the host on port 8080.
+Alternatively don't specify **VARNISH_BACKEND_IP** or **VARNISH_BACKEND_PORT** as Varnish is setup to default to using the docker gateway IP to reach the host on port 8080.
 
     sudo docker run -d -p 80:80 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
 
@@ -88,15 +88,15 @@ Copy the [default.template](https://github.com/dell-cloud-marketplace/docker-var
         .between_bytes_timeout = 2s; # Maximum of 2s between each bytes sent.
     }
 
-Run the [dell/wordpress](https://github.com/dell-cloud-marketplace/docker-wordpress) image:
+Run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image:
 
-    sudo docker run -d -p 8080:80 dell/wordpress
+    sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
 Then run varnish specifying the volume mapping so that the **config.template** that you created can be loaded in the docker-varnish container: 
 
     sudo docker run -d -p 80:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
 
-Inspect the logs and check that "config.template detected" is present
+Inspect the logs and check that **"config.template detected"** is present
 
     sudo docker logs varnish
 
@@ -112,12 +112,11 @@ Or through the browser on
 
 Using the docker-lamp image, simulate processor load by forcing a delay in PHP processing.
 
-Run the docker-lamp image, using the volume mapping to allow the PHP to be modified.
+Run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image, using the volume mapping to allow the PHP to be modified.
 
     sudo docker run -d -p 8080:80 -v /lamp-www:/var/www/html --name lamp dell/lamp
 
-
-Modify the lamp index.php to have a delay when querying the MySql version.
+Modify the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) index.php to have a delay when querying the MySql version.
 
     sudo nano /lamp-www/index.php
 
@@ -206,7 +205,9 @@ Key output:
     Time per request:       0.528 [ms] (mean, across all concurrent requests)
 
 The document length should be the same between tests.
-Time per request should not include the simulated processing time proving the benefits of Varnish Caching.
+Time per request through Varnish should not include the simulated processing time proving the benefits of Varnish Caching.
+
+*PLEASE NOTE: The default cache timeout duration is 120s.  If the cache has expired (Age: 120), Then the varnish will refresh the cache with the next request. Subsequent requests for the next 120s will then be presented from the Varnish cache*
 
 ## Reference
 
