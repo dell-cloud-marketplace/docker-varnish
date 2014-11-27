@@ -78,7 +78,15 @@ A Varnish configuration can be loaded through a file in a docker volume.  This e
 
 A configuration file called **config.template** needs to be created and exist in the docker host volume directory before launching the docker-varnish container.  
 
-Copy the [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) to create the a new file called **config.template**. Then modify the backend default .host and .port parameters to explicity specify the IP address and port of the host that Varnish will cache:
+Create the directory that will be mapped to Varnish:
+
+    sudo mkdir  /vconf
+
+Create and edit a file called **config.template**:
+
+    sudo nano /vconf/config.template
+
+Copy the contents of [default.template](https://github.com/dell-cloud-marketplace/docker-varnish/blob/master/default.template) into /vconf/**config.template**. Then modify the backend default **.host** and **.port** parameters to explicity specify the IP address and port of the host that Varnish will cache:
 
     backend default {
         .host = "192.168.171.12";
@@ -94,7 +102,7 @@ Run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image
 
 Then run varnish specifying the volume mapping so that the **config.template** that you created can be loaded in the docker-varnish container: 
 
-    sudo docker run -d -p 80:80 -v /app:/etc/varnish/config --name varnish dell/varnish 
+    sudo docker run -d -p 80:80 -v /vconf:/etc/varnish/config --name varnish dell/varnish 
 
 Inspect the logs and check that **"config.template detected"** is present
 
