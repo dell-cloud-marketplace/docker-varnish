@@ -86,7 +86,7 @@ Create and edit a file called **config.template**:
 
     sudo nano /vconf/config.template
 
-Copy the **backend default** contents below into **/vconf/config.template**.  Setting the **.host** to IP address 172.17.42.1 (the Docker gateway) and **.port** 8080 will configure Varnish to cache the webserver running on the Docker Host on port 8080. 
+Copy the **backend default** contents below into **/vconf/config.template**.  Setting the **.host** to IP address 172.17.42.1 (the Docker gateway) and **.port** 8080 will configure Varnish to cache a website running on port 8080 on the Docker Host. 
 
     backend default {
         .host = "172.17.42.1";
