@@ -60,7 +60,7 @@ If you inspect the container logs, you will see the output from the [varnishlog]
 sudo docker logs varnish
 ```
 
-#### B. Advanced Usage 1
+#### B. Advanced Usage - Specifying The Backend and Cache with Parameters
 
 By default docker-varnish image is configured to use Docker gateway IP to cache the docker host on port 8080 with a [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) of 100MB.
 
@@ -126,7 +126,7 @@ Inspect the logs as the container is running the [varnishlog](https://www.varnis
 sudo docker logs varnish
 ```
 
-#### C. Advanced Usage 2
+#### C. Advanced Usage - Loading a Varnish Configuration File.
 
 A [Varnish configuration file](https://www.varnish-cache.org/docs/3.0/reference/vcl.html) can be created using VCL.  The VCL language is a small domain-specific language designed to be used to define request handling and document caching policies for Varnish Cache.
 
