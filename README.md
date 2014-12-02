@@ -215,7 +215,7 @@ Start the LAMP container with:
 
 - A named container (**lamp**).
 - binding host port 8080 to port LAMP port 80 (Apache Web Server).
-- One data volume (which will survive a restart or recreation of the container). The PHP application files are available in /app on the host.
+- One data volume (which will survive a restart or recreation of the container). The PHP application files are available in */lamp-www* on the host.
 
 Do:
 
