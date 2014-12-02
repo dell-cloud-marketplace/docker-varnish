@@ -2,11 +2,11 @@ FROM ubuntu:trusty
 MAINTAINER Dell Cloud Market Place <Cloud_Marketplace@dell.com>
 
 # Update the package repository and install applications
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get -y install gettext
-RUN apt-get -y install varnish=3.0.5-2
-RUN apt-get -y clean
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get -y install gettext && \
+    apt-get -y install varnish=3.0.5-2 && \
+    apt-get -y clean
 
 # The default IP and port of the host to have cache acceleration.
 # (172.17.42.1 = docker0 interface)
