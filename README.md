@@ -65,7 +65,7 @@ Test the deployment on the CLI using:
 
     curl http://localhost/
 
-Or through the browser on
+Or through the browser on:
 
     http://localhost/
 
@@ -188,7 +188,7 @@ Connection: keep-alive
 
 The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.html) are **X-Varnish:** which contains both the ID of the current request and the ID of the request that populated the cache and **Age:** which is the amount of time in seconds that the current cache has been served.  If the Age is 0 on the second curl command varnish is not caching or has just cached the site. 
 
-###Test the performance of Varnish
+###Test the Performance of Varnish
 
 Using the [Apache Benchmark **ab** tool](http://httpd.apache.org/docs/2.2/programs/ab.html).  Install Apache2-utils:
 
