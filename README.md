@@ -19,8 +19,8 @@ By default, docker-varnish caches a web server on the Docker host, via IP addres
 
 Start the Lamp container with:
 
-- A named container (**lamp**)
-- Host port 8080 mapped to port LAMP port 80 (Apache Web Server)
+- A named container (**lamp**).
+- Host port 8080 mapped to port LAMP port 80 (Apache Web Server).
 
 Do:
 
@@ -28,11 +28,11 @@ Do:
 sudo docker run -d -p 8080:80 --name lamp dell/lamp
 ```
 
-Next, start the Varnish container:
+Next, start the Varnish container with:
 
-- A named container of (**varnish**)
-- Host port 80 mapped to varnish port 80
-- This will cache the LAMP container Web Server on host port 8080
+- A named container of (**varnish**).
+- Host port 80 mapped to Varnish port 80.
+- This will cache the LAMP container Web Server on host port 8080.
 
 Do:
 
@@ -72,8 +72,8 @@ This example will override these defaults using:
 
 Start the LAMP container with:
 
-- A named container (**lamp**)
-- Host port 8080 to port LAMP port 80 (Apache Web Server)
+- A named container (**lamp**).
+- Host port 8080 to port LAMP port 80 (Apache Web Server).
 
 Do:
 
@@ -83,10 +83,10 @@ sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
 Next, start the Varnish container with:
 
-- A named container (**varnish**)
-- Docker Lamp Host IP address (**VARNISH_BACKEND_IP**)
-- Docker Lamp Host port 8080 (**VARNISH_BACKEND_PORT**)
-- A cache storage amount of 200 Mega Bytes (**VARNISH_STORAGE_AMOUNT**)
+- A named container (**varnish**).
+- Docker LAMP Host IP address (**VARNISH_BACKEND_IP**).
+- Docker LAMP Host port 8080 (**VARNISH_BACKEND_PORT**).
+- A cache storage amount of 200 Mega Bytes (**VARNISH_STORAGE_AMOUNT**).
 
 Do:
 
@@ -164,8 +164,8 @@ backend default {
 
 Start the LAMP container with:
 
-- A named container (**lamp**)
-- Host port 8080 mapped to port LAMP port 80 (Apache Web Server)
+- A named container (**lamp**).
+- Host port 8080 mapped to port LAMP port 80 (Apache Web Server).
 
 Do:
 
@@ -174,12 +174,12 @@ sudo docker run -d -p 8080:80 --name lamp dell/lamp
 ```
 
 
-Next, start the Varnish container:
+Next, start the Varnish container with:
 
-- A named container (**varnish**)
-- Host port 80 mapped to varnish port 80
-- A Volume Mapping host directory */vconf* to Varnish container directory */etc/varnish/config*
-- The **config.template** that you created will be loaded in the docker-varnish container
+- A named container (**varnish**).
+- Host port 80 mapped to varnish port 80.
+- A Volume Mapping host directory */vconf* to Varnish container directory */etc/varnish/config*  (which will survive a restart or recreation of the container).
+- The **config.template** that you created will be loaded in the docker-varnish container.
 
 Do:
 
@@ -213,9 +213,9 @@ Using the docker-lamp image, simulate the processor load by forcing a delay in P
 
 Start the LAMP container with:
 
-- A named container (**lamp**)
-- binding host port 8080 to port LAMP port 80 (Apache Web Server)
-- A Volume Mapping host directory */lamp-www* to LAMP container directory */var/www/html* 
+- A named container (**lamp**).
+- binding host port 8080 to port LAMP port 80 (Apache Web Server).
+- A Volume Mapping host directory */lamp-www* to LAMP container directory */var/www/html*.
 
 Do:
 
@@ -246,9 +246,9 @@ Insert the **sleep(2);** command here (line 20):
 
 Next, start the Varnish container with:
 
-- A named container of (**varnish**)
-- Host port 80 mapped to Varnish port 80
-- This will cache the LAMP container Web Server on host port 8080
+- A named container of (**varnish**).
+- Host port 80 mapped to Varnish port 80.
+- This will cache the LAMP container Web Server on host port 8080.
 
 Do:
 
