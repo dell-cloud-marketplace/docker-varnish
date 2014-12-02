@@ -14,11 +14,11 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ### Basic Example
 By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 8080.
 
-Start your [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image, binding host port 8080 to port 80, as follows:
+Start your [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image, binding host port 8080 to port 80 and with the named container of 'lamp', as follows:
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Next, start the Varnish image, binding host port 80 to port 80. This will cache the LAMP site serving on port 8080:
+Next, start the Varnish image, binding host port 80 to port 80, with a named container of 'varnish'. This will cache the LAMP site serving on port 8080:
 
     sudo docker run -d -p 80:80 --name varnish dell/varnish
     
@@ -47,9 +47,7 @@ First run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp)
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image is bound to.  
-
-A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
+Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image is bound to. A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
 
 ```no-highlight
 sudo docker run -d -p 80:80 \
