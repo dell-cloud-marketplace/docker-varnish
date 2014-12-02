@@ -30,7 +30,7 @@ sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
 Next, start the Varnish container with:
 
-- A named container of (**varnish**).
+- A named container (**varnish**).
 - Host port 80 mapped to Varnish port 80.
 - This will cache the LAMP container Web Server on host port 8080.
 
@@ -246,7 +246,7 @@ Insert the **sleep(2);** command here (line 20):
 
 Next, start the Varnish container with:
 
-- A named container of (**varnish**).
+- A named container (**varnish**).
 - Host port 80 mapped to Varnish port 80.
 - This will cache the LAMP container Web Server on host port 8080.
 
