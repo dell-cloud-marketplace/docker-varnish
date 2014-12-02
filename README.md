@@ -14,11 +14,11 @@ Varnish    | [3.0.5-2](https://www.varnish-cache.org/docs/3.0/index.html) | Cach
 ### Basic Example
 By default, docker-varnish caches a web server on the Docker host, via IP address 172.17.42.1 (the Docker gateway) on port 8080.
 
-Start a [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) container, serving port 8080, as follows:
+Start your [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image, binding host port 8080 to port 80, as follows:
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Next, start the Varnish container, binding host port 80 to (Varnish) container port 80.  This will cache the LAMP site serving on port 8080:
+Next, start the Varnish image, binding host port 80 to port 80. This will cache the LAMP site serving on port 8080:
 
     sudo docker run -d -p 80:80 --name varnish dell/varnish
     
@@ -36,7 +36,7 @@ If you inspect the container logs, you will see the output from the [varnishlog]
 
 ### Advanced Example
 
-By default docker-varnish is configured to use Docker gateway IP to cache the docker host on port 8080 with a [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) of 100MB.
+By default docker-varnish image is configured to use Docker gateway IP to cache the docker host on port 8080 with a [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) of 100MB.
 
 This example will override these defaults using:
 - **VARNISH_BACKEND_IP** to specify the IP address of the host that Varnish will cache.
@@ -47,12 +47,17 @@ First run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp)
 
     sudo docker run -d -p 8080:80 --name lamp dell/lamp
 
-Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image has bound to.  
+Now start the varnish image, this time specifying the host IP address (**VARNISH_BACKEND_IP**) and host port 8080 (**VARNISH_BACKEND_PORT**) This is the port that the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image is bound to.  
 
 A cache storage amount can also be specified using (**VARNISH_STORAGE_AMOUNT**) 
 
-    sudo docker run -d -p 80:80 -e VARNISH_BACKEND_IP=192.168.171.129 \
-    -e VARNISH_BACKEND_PORT=8080 -e VARNISH_STORAGE_AMOUNT=200M --name varnish dell/varnish
+```no-highlight
+sudo docker run -d -p 80:80 \
+-e VARNISH_BACKEND_IP=192.168.171.129 \
+-e VARNISH_BACKEND_PORT=8080 \
+-e VARNISH_STORAGE_AMOUNT=200M \
+--name varnish dell/varnish
+```
 
 Alternatively don't specify **VARNISH_BACKEND_IP** or **VARNISH_BACKEND_PORT** as Varnish is setup to default to using the docker gateway IP to reach the host on port 8080.
 
@@ -88,13 +93,15 @@ Create and edit a file called **config.template**:
 
 Copy the **backend default** contents below into **/vconf/config.template**.  Setting the **.host** to IP address 172.17.42.1 (the Docker gateway) and **.port** 8080 will configure Varnish to cache a website running on port 8080 on the Docker Host. 
 
-    backend default {
-        .host = "172.17.42.1";
-        .port = "8080";
-        .connect_timeout = 1s;       # Maximum of 1s for backend connection.
-        .first_byte_timeout = 5s;    # Maximum of 5s for the first byte.
-        .between_bytes_timeout = 2s; # Maximum of 2s between each bytes sent.
-    }
+```no-highlight
+backend default {
+    .host = "172.17.42.1";
+    .port = "8080";
+    .connect_timeout = 1s;       # Maximum of 1s for backend connection.
+    .first_byte_timeout = 5s;    # Maximum of 5s for the first byte.
+    .between_bytes_timeout = 2s; # Maximum of 2s between each bytes sent.
+}
+```
 
 Run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image:
 
@@ -116,9 +123,9 @@ Or through the browser on:
 
     http://localhost/
 
-## Verify Varnish is cache is working.
+## Verify Varnish Cache is Working.
 
-Using the docker-lamp image, simulate processor load by forcing a delay in PHP processing.
+Using the docker-lamp image, simulate the processor load by forcing a delay in PHP processing.
 
 Run the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) image, using the volume mapping to allow the PHP to be modified.
 
@@ -130,7 +137,7 @@ Modify the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) in
 
 
 Insert the **sleep(2);** command here (line 20):
-    
+  
     <body>
       <img id="logo" src="logo.png" />
       <h1><?php echo "Hello world!"; ?></h1>
@@ -153,29 +160,33 @@ Inspect the Varnish http header values to verify that the site is being cached:
 
 This will display output like this:
 
-    HTTP/1.1 200 OK
-    Server: Apache/2.4.7 (Ubuntu)
-    X-Powered-By: PHP/5.5.9-1ubuntu4.4
-    Vary: Accept-Encoding
-    Content-Type: text/html
-    Date: Wed, 26 Nov 2014 16:46:14 GMT
-    X-Varnish: 663286749
-    Age: 0
-    Via: 1.1 varnish
-    Connection: keep-alive
+```no-highlight
+HTTP/1.1 200 OK
+Server: Apache/2.4.7 (Ubuntu)
+X-Powered-By: PHP/5.5.9-1ubuntu4.4
+Vary: Accept-Encoding
+Content-Type: text/html
+Date: Wed, 26 Nov 2014 16:46:14 GMT
+X-Varnish: 663286749
+Age: 0
+Via: 1.1 varnish
+Connection: keep-alive
+```
 
 Run the curl command again: 
 
-    HTTP/1.1 200 OK
-    Server: Apache/2.4.7 (Ubuntu)
-    X-Powered-By: PHP/5.5.9-1ubuntu4.4
-    Vary: Accept-Encoding
-    Content-Type: text/html
-    Date: Wed, 26 Nov 2014 16:46:14 GMT
-    X-Varnish: 663286750 663286749
-    Age: 10
-    Via: 1.1 varnish
-    Connection: keep-alive
+```no-highlight
+HTTP/1.1 200 OK
+Server: Apache/2.4.7 (Ubuntu)
+X-Powered-By: PHP/5.5.9-1ubuntu4.4
+Vary: Accept-Encoding
+Content-Type: text/html
+Date: Wed, 26 Nov 2014 16:46:14 GMT
+X-Varnish: 663286750 663286749
+Age: 10
+Via: 1.1 varnish
+Connection: keep-alive
+```
 
 The key [varnish http fields](https://www.varnish-cache.org/docs/2.1/faq/http.html) are **X-Varnish:** which contains both the ID of the current request and the ID of the request that populated the cache and **Age:** which is the amount of time in seconds that the current cache has been served.  If the Age is 0 on the second curl command varnish is not caching or has just cached the site. 
 
@@ -191,10 +202,12 @@ Benchmark the performance of the LAMP site without Varnish Caching.  This will p
 
 Key output:
 
-    Document Length:        430 bytes
-    ...
-    Time per request:       2431.655 [ms] (mean)
-    Time per request:       24.317 [ms] (mean, across all concurrent requests)
+```no-highlight
+Document Length:        430 bytes
+...
+Time per request:       2431.655 [ms] (mean)
+Time per request:       24.317 [ms] (mean, across all concurrent requests)
+```
 
 Do the same, this time using the Varnish Cache endpoint:
 
@@ -202,10 +215,12 @@ Do the same, this time using the Varnish Cache endpoint:
 
 Key output:
 
-    Document Length:        430 bytes
-    ...
-    Time per request:       5.282 [ms] (mean)
-    Time per request:       0.528 [ms] (mean, across all concurrent requests)
+```no-highlight
+Document Length:        430 bytes
+...
+Time per request:       5.282 [ms] (mean)
+Time per request:       0.528 [ms] (mean, across all concurrent requests)
+```
 
 The document length should be the same between tests.
 Time per request through Varnish should not include the simulated processing time proving the benefits of Varnish Caching.
