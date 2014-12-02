@@ -4,7 +4,7 @@ This image installs [Varnish 3.0](https://www.varnish-cache.org/docs/3.0/index.h
 ## Components
 The stack comprises the following components:
 
-Name       | Version    | Description
+Name       | Version    | Descriptionm
 -----------|------------|------------------------------
 Ubuntu     | Trusty     | Operating system
 Varnish    | 3.0.5-2    | Caching HTTP Reverse Proxy
@@ -60,7 +60,7 @@ If you inspect the container logs, you will see the output from the [varnishlog]
 sudo docker logs varnish
 ```
 
-#### B. Advanced Usage - Specifying The Backend and Cache with Parameters
+#### B. Advanced Usage - Specifying the Backend and Cache with Parameters
 
 By default docker-varnish image is configured to use Docker gateway IP to cache the docker host on port 8080 with a [Varnish cache storage amount](https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) of 100MB.
 
@@ -178,7 +178,7 @@ Next, start the Varnish container with:
 
 - A named container (**varnish**).
 - Host port 80 mapped to varnish port 80.
-- A Volume Mapping host directory */vconf* to Varnish container directory */etc/varnish/config*  (which will survive a restart or recreation of the container).
+- One data volume (which will survive a restart or recreation of the container). The Varnish directory */vconf* on the host.
 - The **config.template** that you created will be loaded in the docker-varnish container.
 
 Do:
@@ -215,7 +215,7 @@ Start the LAMP container with:
 
 - A named container (**lamp**).
 - binding host port 8080 to port LAMP port 80 (Apache Web Server).
-- A Volume Mapping host directory */lamp-www* to LAMP container directory */var/www/html*.
+- One data volume (which will survive a restart or recreation of the container). The PHP application files are available in /app on the host.
 
 Do:
 
@@ -223,7 +223,7 @@ Do:
 sudo docker run -d -p 8080:80 -v /lamp-www:/var/www/html --name lamp dell/lamp
 ```
 
-Modify the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) index.php to have a delay when querying the MySql version.
+Modify the [dell/lamp](https://github.com/dell-cloud-marketplace/docker-lamp) index.php to have a delay when querying the MySQL version.
 
 ```no-highlight
 sudo nano /lamp-www/index.php
