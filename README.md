@@ -223,7 +223,7 @@ Time per request:       0.528 [ms] (mean, across all concurrent requests)
 The document length should be the same between tests.
 Time per request through Varnish should not include the simulated processing time proving the benefits of Varnish Caching.
 
-*PLEASE NOTE: The default cache timeout duration is 120s.  If the cache has expired (Age: 120), Then the varnish will refresh the cache with the next request. Subsequent requests for the next 120s will then be presented from the Varnish cache.*
+*PLEASE NOTE: The default cache timeout duration is 120s.  If the cache has expired (Age: 120), Then Varnish will refresh the cache with the next request. Subsequent requests for the next 120s will then be presented from the Varnish cache.*
 
 ## Reference
 
