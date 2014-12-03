@@ -211,11 +211,7 @@ sudo docker run -d -p 80:80 -v /vconf:/etc/varnish/config \
     --name varnish dell/varnish 
 ```
 
-Inspect the logs and check that **"config.template detected"** is present:
-
-```no-highlight
-sudo docker logs varnish
-```
+Inspect the host folder (e.g. **/vconf**) and check that file **config.vcl** is present, with the expected content.
 
 ## Reference
 

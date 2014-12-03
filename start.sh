@@ -10,10 +10,7 @@ CONFIG_FILE=${CONFIG_FOLDER}/config.vcl
 # If the config template is missing (either no volume or an empty volume was
 # specified), copy the config template from the default.
 if [ ! -f  $CONFIG_TEMPLATE ]; then
-    echo -e "\e[32mUsing Default Template\e[39m"
     cp $DEFAULT_TEMPLATE $CONFIG_TEMPLATE
-else
-    echo -e "\e[32mconfig.template detected\e[39m"
 fi
 
 # Patch any environmental variable references to create the config file.
