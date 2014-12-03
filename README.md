@@ -14,8 +14,8 @@ By default, a docker-varnish container caches IP address 172.17.42.1 (the Docker
 
 Setting                | Value       | Description
 -----------------------|-------------|------------
-VARNISH_BACKEND_IP     | 172.17.42.1 | The IP address of the host that Varnish will cache
-VARNISH_BACKEND_PORT   | 8080        | The port of the host that Varnish will cache
+VARNISH_BACKEND_IP     | 172.17.42.1 | The IP address of the host to be cached
+VARNISH_BACKEND_PORT   | 8080        | The port of the host to be cached
 VARNISH_STORAGE_AMOUNT | 100MB       | The Varnish [cache] (https://www.varnish-cache.org/docs/3.0/tutorial/sizing_your_cache.html) size
 
 ## Usage
