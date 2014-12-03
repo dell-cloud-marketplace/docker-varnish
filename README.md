@@ -45,7 +45,7 @@ Start a Varnish container on the Docker host, with host port 80 mapped to contai
 sudo docker run -d -p 80:80 --name varnish dell/varnish
 ```
 
-*Note that the Varnish container defaults for **VARNISH_BACKEND_IP** and **VARNISH_BACKEND_PORT** map to the LAMP container created in the previous step.*
+*Note that the Varnish container defaults for VARNISH_BACKEND_IP and VARNISH_BACKEND_PORT map to the LAMP container created in the previous step.*
 
 ### Step 3. Verify Caching
 
