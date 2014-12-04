@@ -185,7 +185,7 @@ For example:
 ```no-highlight
 sudo docker run -d -p 80:80 \
     -e VARNISH_BACKEND_IP=192.168.171.129 \
-    -e VARNISH_BACKEND_PORT=8080 \
+    -e VARNISH_BACKEND_PORT=8000 \
     -e VARNISH_STORAGE_AMOUNT=200M \
     --name varnish dell/varnish
 ```
