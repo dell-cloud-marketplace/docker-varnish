@@ -148,7 +148,7 @@ Time per request:       2431.655 [ms] (mean)
 Time per request:       24.317 [ms] (mean, across all concurrent requests)
 ```
 
-As shown, this took over 20 seconds (20 = **sleep time** * **total requests** / **requests per second**).
+As shown, this took over 20 seconds (20 = **sleep time** * **total requests** / **concurrent requests**).
 
 #### B. Benchmark with Caching
 Test the Varnish endpoint:
