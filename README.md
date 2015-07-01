@@ -223,7 +223,7 @@ VARNISH_BACKEND_IP     | 172.17.42.1 | The IP address of the system being cached
 VARNISH_BACKEND_PORT   | 8080        | The port of the system being cached
 VARNISH_STORAGE_AMOUNT | 100M        | The amount of memory to allocate (storage = malloc)
 VARNISH_SESS_TIMEOUT   | 20          | Keep-alive timeout in seconds
-VARNISH_CONSOLE_PORT   | 2000        | Offer a management interface on the specified
+VARNISH_CONSOLE_PORT   | 2000        | Offer a management interface on the specified port
 VARNISH_PORT           | 80          | The port on which Varnish will listen
 
 ### Image Details
