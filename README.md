@@ -215,6 +215,17 @@ Inspect the host folder (e.g. **/vconf**) and check that file **config.vcl** is 
 
 ## Reference
 
+### Environmental Variables
+
+Variable               | Default     | Description
+-----------------------|-------------|-----------------------------------------------------------------------------
+VARNISH_BACKEND_IP     | 172.17.42.1 | The IP address of the system being cached (default is the docker0 interface)
+VARNISH_BACKEND_PORT   | 8080        | The port of the system being cached
+VARNISH_STORAGE_AMOUNT | 100M        | The amount of memory to allocate (storage = malloc)
+VARNISH_SESS_TIMEOUT   | 20          | Keep-alive timeout in seconds
+VARNISH_CONSOLE_PORT   | 2000        | Offer a management interface on the specified port
+VARNISH_PORT           | 80          | The port on which Varnish will listen
+
 ### Image Details
 
 Based on | [jacksoncage/varnish](https://github.com/jacksoncage/varnish-docker)
